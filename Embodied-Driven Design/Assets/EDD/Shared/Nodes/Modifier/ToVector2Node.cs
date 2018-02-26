@@ -48,12 +48,5 @@ namespace Klak.Wiring
 		{
 			_Invoke ();
 		}
-
-		public override void OnNodeGUI ()
-		{
-			base.OnNodeGUI ();
-
-			GUILayout.Box (this.value.ToString ());
-		}
 	}
 }

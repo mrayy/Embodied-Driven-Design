@@ -31,10 +31,10 @@ namespace Klak.Osc
         #region Delegate Classes
 
         /// Callback bound to a specific address
-        public delegate void DataCallback(float data);
+        public delegate void DataCallback(List<float> data);
 
         /// Incoming message monitor delegate
-        public delegate void MessageMonitor(string address, float data);
+        public delegate void MessageMonitor(string address, List<float> data);
 
         #endregion
 
@@ -77,7 +77,7 @@ namespace Klak.Osc
 
         #region Handler Invokation
 
-        public void ProcessMessage(string address, float data)
+        public void ProcessMessage(string address, List<float> data)
         {
             lock (_delegatesLock)
             {

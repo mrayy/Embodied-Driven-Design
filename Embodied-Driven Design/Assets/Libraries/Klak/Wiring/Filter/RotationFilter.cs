@@ -70,6 +70,16 @@ namespace Klak.Wiring
             }
         }
 
+        [Inlet]
+        public float Amplitude
+        {
+            set
+            {
+                if (!enabled) return;
+                _amplitude = value;
+            }
+        }
+
         [SerializeField, Outlet]
         QuaternionEvent _outputEvent = new QuaternionEvent();
 

@@ -138,8 +138,7 @@ namespace Klak.Wiring.Patcher
         {
             _hierarchyChanged = true;
         }
-
-		bool _autoUpdate=true;
+        
 
         Rect SceneLayoutRect = new Rect(0, 0, 100, 100);
         float zoomScale = 1.0f;
@@ -281,7 +280,6 @@ namespace Klak.Wiring.Patcher
         void DrawTools()
         {
 
-            _autoUpdate = GUI.Toggle(new Rect(0,0,100,25), _autoUpdate, "Auto Refresh");
             bool show = true;
             if (Event.current.type == EventType.mouseDown && Event.current.control)
             {
@@ -390,7 +388,7 @@ namespace Klak.Wiring.Patcher
             HandleEvents();
             /*_zoomArea = new Rect (0-_zoomCoordsOrigin.x, 0-_zoomCoordsOrigin.y, width, height - kBarHeight);
             // Main graph area*/
-            EditorZoomArea.Begin (zoomScale, SceneLayoutRect);
+            EditorZoomArea.Begin (1, SceneLayoutRect);
             _graphGUI.BeginGraphGUI(this, new Rect(0, 0, width/ zoomScale, height/ zoomScale - kBarHeight));
 
 			//Can draw group boxes here
@@ -510,16 +508,10 @@ namespace Klak.Wiring.Patcher
             GUILayout.FlexibleSpace();
             GUILayout.EndVertical();
         }
-		/*
-		void Update()
-		{
-			if(_autoUpdate)
-				Repaint ();
-		}*/
 
 		void OnInspectorUpdate()
 		{
-			Repaint();
+            Repaint ();
 		}
 
         #endregion

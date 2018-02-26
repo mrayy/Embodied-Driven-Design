@@ -69,7 +69,21 @@ namespace Klak.Wiring
             _invoke();
         }
 
-		[Inlet]
+        [Inlet]
+        public void On()
+        {
+            if (!enabled) return;
+            _state = true;
+            _invoke();
+        }
+        [Inlet]
+        public void Off()
+        {
+            if (!enabled) return;
+            _state = false;
+        }
+
+            [Inlet]
 		public bool State
 		{
 			set{
@@ -130,11 +144,8 @@ namespace Klak.Wiring
 		{
 			base.OnNodeGUI ();
 
-			GUILayout.BeginVertical ();
-			GUILayout.FlexibleSpace ();
-			GUILayout.Label (_state ? "On" : "Off");
-			GUILayout.FlexibleSpace ();
-			GUILayout.EndVertical ();
+
+//			GUI.Label (new Rect (20, 20, 40, 20), _state ? "On" : "Off",EditorStyles.boldLabel);
 		}
     }
 }

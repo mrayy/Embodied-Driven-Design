@@ -12,10 +12,15 @@ namespace Klak.Wiring
         [Outlet]
         public VoidEvent _offEvent = new VoidEvent();
 
+        bool _currState = false;
+
         [SerializeField, Inlet]
         public bool State
         {
             set{
+                if (value == _currState)
+                    return;
+                _currState = value;
                 if (value)
                     _onEvent.Invoke();
                 else _offEvent.Invoke();

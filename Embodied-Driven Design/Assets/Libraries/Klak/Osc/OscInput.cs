@@ -84,8 +84,11 @@ namespace Klak.Osc
                 _threshold < _lastInputValue && _threshold >= inputValue;
         }
 
-        void OscDataCallback(float inputValue)
+        void OscDataCallback(List<float> val)
         {
+            float inputValue = 0;
+            if (val.Count > 0)
+                inputValue = val[0];
             _value.targetValue = inputValue;
 
             lock (_eventQueue) _eventQueue.Enqueue(EventRecord.Bang);
@@ -157,7 +160,12 @@ namespace Klak.Osc
 
         public float debugInput {
             get { return _lastInputValue; }
-            set { OscDataCallback(value); }
+            set
+            {
+                List<float> v = new List<float>();
+                v.Add(value);
+                OscDataCallback(v);
+            }
         }
 
         public void DebugBang()

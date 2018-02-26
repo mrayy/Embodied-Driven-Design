@@ -47,14 +47,14 @@ namespace Klak.Wiring.Patcher
 
         #region IEdgeGUI implementation
 
+       static Color colorOff = new Color(1, 1, 1, 0.5f);
+        static Color colorOn = new Color(0.6f, 0.75f, 1, 1);
         public void DoEdges()
         {
             // Draw edges on repaint.
             if (Event.current.type == EventType.Repaint)
             {
                 Handles.BeginGUI();
-                var colorOff = Color.white;
-                var colorOn = new Color(0.6f, 0.75f, 1);
 
 
                 var i = 0;
@@ -64,9 +64,9 @@ namespace Klak.Wiring.Patcher
 					bool BlockSelected=host.selection.Contains (edge.fromSlot.node);
 				//	edge.fromSlot.node
 
-					bool ison = edgeSelection.Contains (i) || Event.current.alt;
+					bool ison = BlockSelected || edgeSelection.Contains (i) || Event.current.alt;
 
-					var clr = BlockSelected ? Color.green : (ison ? colorOn : colorOff);
+                    var clr = BlockSelected ? Color.green : colorOff;// (ison ? colorOn : colorOff);
 
 					string t = "";
 					if (ison) {

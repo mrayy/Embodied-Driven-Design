@@ -46,8 +46,41 @@ namespace Klak.Wiring.Patcher
             public Type sourceType;
             public Type targetType;
         }
+
+        class RestrictedPair
+        {
+            public RestrictedPair(Type sN, string sA,Type dN, string dA)
+            {
+                SrcNode = sN;
+                SrcAttr = sA;
+                DstNode = dN;
+                DstAttr = dA;
+            }
+
+            public Type SrcNode;
+            public string SrcAttr;
+
+            public Type DstNode;
+            public string DstAttr;
+        }
+
         static MethodInfo _AddPersistenceListener = null;
         static List<ConnectionPair> _pairs;
+        static List<RestrictedPair> _restrictedPairs;
+
+        static void ListRetrictedTypes()
+        {
+            if (_restrictedPairs != null)
+                return;
+
+            _restrictedPairs = new List<RestrictedPair>();
+            _restrictedPairs.Add(new RestrictedPair(typeof(Vector3Node), "X", typeof(ToVector3Node), "Y"));
+            _restrictedPairs.Add(new RestrictedPair(typeof(Vector3Node), "X", typeof(ToVector3Node), "Z"));
+            _restrictedPairs.Add(new RestrictedPair(typeof(Vector3Node), "Y", typeof(ToVector3Node), "X"));
+            _restrictedPairs.Add(new RestrictedPair(typeof(Vector3Node), "Y", typeof(ToVector3Node), "Z"));
+            _restrictedPairs.Add(new RestrictedPair(typeof(Vector3Node), "Z", typeof(ToVector3Node), "X"));
+            _restrictedPairs.Add(new RestrictedPair(typeof(Vector3Node), "Z", typeof(ToVector3Node), "Y"));
+        }
 
         static void EnumTypes()
         {
@@ -261,7 +294,7 @@ namespace Klak.Wiring.Patcher
                 var act = GetActionDataType(actionType);
                 var evt = GetEventDataType(triggerEvent.GetType());
 
-				if (act == evt){// || evt.IsSubclassOf(act)) {//same type
+                if (act == evt) {//same type
                                  //		UnityEventTools.AddPersistentListener(triggerEvent as UnityEvent,targetAction as UnityAction);
                     if (_AddPersistenceListener == null) {
                         var mi = typeof(UnityEventTools)
@@ -275,7 +308,7 @@ namespace Klak.Wiring.Patcher
                     }
 
                     var actType = GetActionBaseType(targetAction.GetType());
-					var evtType = GetEventBaseType (triggerEvent.GetType());
+                    var evtType = GetEventBaseType(triggerEvent.GetType());
 
                     /*	object action,trigger;
 

@@ -23,6 +23,10 @@
 //
 using UnityEngine;
 
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
 namespace Klak.Wiring
 {
 	[ModelBlock("Transfer/Logic/Threshold")]
@@ -113,6 +117,17 @@ namespace Klak.Wiring
                 _stateEvent.Invoke(_currentState!=State.Disabled);
         }
 
-        #endregion
+#if UNITY_EDITOR
+        public override void OnNodeGUI()
+        {
+            base.OnNodeGUI();
+
+            GUILayout.BeginVertical();
+            GUILayout.Label("Threshold");
+            _threshold = EditorGUILayout.FloatField(_threshold);
+            GUILayout.EndVertical();
+        }
+#endif
+#endregion
     }
 }

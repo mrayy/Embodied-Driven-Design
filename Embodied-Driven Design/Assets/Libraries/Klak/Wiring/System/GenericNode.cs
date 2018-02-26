@@ -5,7 +5,7 @@ using UnityEngine.Events;
 using Klak.Wiring;
 
 	
-[ModelBlock("Transfer/Generic Node")]
+//[ModelBlock("Transfer/Generic Node")]
 public class GenericNode : BlockBase {
 
 	public BlockBase sourceObject;

@@ -78,7 +78,10 @@ namespace Klak.Osc
                 var types = ReadString();
 
                 // read the first argument if exists
-                var arg = types.Length > 1 ? ReadArgument(types[1]) : 0.0f;
+                List<float> arg = new List<float>();
+                for (int i = 1; i < types.Length; ++i)
+                    arg.Add(ReadArgument(types[i]));
+                //var arg = types.Length > 1 ? ReadArgument(types[1]) : 0.0f;)
 
                 // invoke the callback with the retrieved argument
                 _messageHandler.ProcessMessage(address, arg);

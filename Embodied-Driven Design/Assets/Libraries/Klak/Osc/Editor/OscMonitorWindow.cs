@@ -30,7 +30,7 @@ namespace Klak.Osc
     /// OSC message monitor window
     class OscMonitorWindow : EditorWindow
     {
-        Dictionary<string, float> _dataMap;
+        Dictionary<string, List<float>> _dataMap;
         bool _updated;
 
         [MenuItem("Window/OSC Monitor")]
@@ -41,7 +41,7 @@ namespace Klak.Osc
 
         void OnEnable()
         {
-            _dataMap = new Dictionary<string, float>();
+            _dataMap = new Dictionary<string, List<float>>();
             OscMaster.messageHandler.AddMessageMonitor(OnProcessMessage);
         }
 
@@ -56,7 +56,12 @@ namespace Klak.Osc
 
             lock (_dataMap)
                 foreach (var pair in _dataMap)
-                    EditorGUILayout.LabelField(pair.Key, pair.Value.ToString());
+                {
+                    string str = "";
+                    foreach (var v in pair.Value)
+                        str += v.ToString() + ",";
+                    EditorGUILayout.LabelField(pair.Key, str);
+                }
 
             EditorGUILayout.EndVertical();
         }
@@ -69,7 +74,7 @@ namespace Klak.Osc
             }
         }
 
-        void OnProcessMessage(string address, float data)
+        void OnProcessMessage(string address, List<float> data)
         {
             lock (_dataMap) _dataMap[address] = data;
             _updated = true;
